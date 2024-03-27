@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Language;
 use App\Models\MyClass;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -11,14 +12,15 @@ class SubjectController extends Controller
 {
     public function list()
     {
-        $subjects = Subject::all();
+        $subjects = Subject::with('languages')->get();
         return view('subjects.list', ['subjects' => $subjects]);
     }
 
     public function add()
     {
         $classes = MyClass::all();
-        return view('subjects.add', ['classes' => $classes]);
+        $languages = Language::all();
+        return view('subjects.add', ['classes' => $classes, 'languages' => $languages]);
     }
 
     public function store(Request $request)
@@ -28,6 +30,8 @@ class SubjectController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'class_id' => 'required',
+            'languages' => 'required|array',
+            'languages.*' => 'exists:languages,id',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -35,7 +39,11 @@ class SubjectController extends Controller
         $subject = new Subject();
         $subject->name = $request->name;
         $subject->class_id = $request->class_id;
-        $subject->save();
+        if (isset($request->languages)) {
+            $subject->save();
+            $subject->languages()->attach($request->languages);
+        }
+
         return redirect()->route('subjects.list')->with('success', 'Student subject created successfully.');
     }
 }

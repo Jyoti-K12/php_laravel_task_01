@@ -19,6 +19,12 @@
         <div class="row">
           <form action="{{ route('students.search') }}" method="GET">
             <input type="text" name="query" class="p-1" placeholder="Search by name">
+            <select name="class" class="p-1">
+              <option value="">Select Class</option>
+              @foreach ($classes as $k1 => $class)
+              <option value="{{$class->id}}">{{$class->name}}</option>
+              @endforeach
+            </select>
             <button type="submit" class="btn btn-secondary">Search</button>
         </form>
         </div>
@@ -50,6 +56,7 @@
                       <th>Email</th>
                       <th>Age</th>
                       <th>Roll Number</th>
+                      <th>Class</th>
                       <th>Image</th>
                       <th>Created At</th>
                     </tr>
@@ -58,10 +65,11 @@
                     @forelse ($students as $key => $student)
                     <tr>
                       <td>{{ $student->id }}</td>
-                      <td><span class="badge {{ $key % 3 === 0 ? 'bg-success' : ($key % 3 === 1 ? 'bg-danger' : 'bg-warning') }}">{{ $student->name }}</span></td>
+                      <td>{{ $student->name }}</td>
                       <td>{{ $student->email }}</td>
                       <td>{{ $student->age }}</td>
                       <td>{{ $student->roll_number }}</td>
+                      <td><span class="badge {{ $key % 3 === 0 ? 'bg-success' : ($key % 3 === 1 ? 'bg-danger' : 'bg-warning') }}">{{ $student->student_class->name }}</span></td>
                       <td>
                         @if(!empty($student->image))
                         <img src="{{ url('/' . $student->image) }}" style="height:50px; width:50px; border-radius:50%" alt="User Image">

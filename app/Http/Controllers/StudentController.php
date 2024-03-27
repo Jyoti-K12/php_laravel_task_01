@@ -12,7 +12,8 @@ class StudentController extends Controller
     public function list()
     {
         $students = User::where('role', 'student')->get();
-        return view('students.list', ['students' => $students]);
+        $classes = MyClass::all();
+        return view('students.list', ['students' => $students, 'classes' => $classes]);
     }
 
     public function add()
@@ -60,16 +61,22 @@ class StudentController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
+        $class_id = $request->input('class');
+        $classes = MyClass::all();
+        $condition = [];
         if (!empty($query)) {
-            $students = User::where([
-                ['name', 'like', '%' . $query . '%'],
-                ['role', 'student']
-            ])->get();
+            $condition[] = ['name', 'like', '%' . $query . '%'];
+        }
+        if (!empty($class_id)) {
+            $condition[] = ['class_id',  $class_id];
+        }
+        if (!empty($condition)) {
+            $students = User::where($condition)->where('role', 'student')->get();
         } else {
             $students = User::where(['role' => 'student'])->get();
         }
 
 
-        return view('students.list', compact('students'));
+        return view('students.list', compact('students', 'classes'));
     }
 }

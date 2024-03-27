@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class LanguageSubject extends Model
 {
     use HasFactory;
+
+    public function language()
+    {
+        return $this->belongsTo('App\Models\Language');
+    }
 }
