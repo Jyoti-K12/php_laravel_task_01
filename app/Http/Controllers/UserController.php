@@ -18,8 +18,7 @@ class UserController extends Controller
         $classes = MyClass::count();
         $languages = Language::count();
         $subjects = Subject::count();
-
         // Pass the counts to the view
-        return view('welcome', compact('students', 'teachers', 'classes', 'languages'));
+        return view('welcome', compact('students', 'teachers', 'classes', 'languages', 'subjects'));
     }
 }
