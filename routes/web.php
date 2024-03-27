@@ -37,6 +37,7 @@ Route::post('/subjects-store', [SubjectController::class, 'store'])->name('subje
 Route::get('/students', [StudentController::class, 'list'])->name('students.list');
 Route::any('/students-add', [StudentController::class, 'add'])->name('students.add');
 Route::post('/students-store', [StudentController::class, 'store'])->name('students.store');
+Route::get('/students/search', [StudentController::class, 'search'])->name('students.search');
 
 Route::get('/teachers', [TeacherController::class, 'list'])->name('teachers.list');
 Route::any('/teachers-add', [TeacherController::class, 'add'])->name('teachers.add');

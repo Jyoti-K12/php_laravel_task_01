@@ -56,4 +56,20 @@ class StudentController extends Controller
 
         return redirect()->route('students.list')->with('success', 'Student record added successfully.');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        if (!empty($query)) {
+            $students = User::where([
+                ['name', 'like', '%' . $query . '%'],
+                ['role', 'student']
+            ])->get();
+        } else {
+            $students = User::where(['role' => 'student'])->get();
+        }
+
+
+        return view('students.list', compact('students'));
+    }
 }
