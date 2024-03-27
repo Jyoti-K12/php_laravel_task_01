@@ -12,7 +12,7 @@ class TeacherController extends Controller
 {
     public function list()
     {
-        $teachers = User::where('role', 'teacher')->get();
+        $teachers = User::where('role', 'teacher')->with('classes', 'subjects')->get();
         return view('teachers.list', ['teachers' => $teachers]);
     }
 

@@ -7,12 +7,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Simple Tables</h1>
+            <h1>Teacher Tables</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Simple Tables</li>
+              <li class="breadcrumb-item active">Teachers</li>
             </ol>
           </div>
         </div>
@@ -26,7 +26,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Simple Full Width Table</h3>
+                <h3 class="card-title">Teachers</h3>
 
                 <div class="card-tools">
                   <ul class="float-right">
@@ -43,19 +43,32 @@
                       <th>Name</th>
                       <th>Email</th>
                       <th>Age</th>
-                      <th>Roll Number</th>
+                      <th>Gender</th>
+                      <th>Subjects</th>
+                      <th>Classes</th>
                       <th>Image</th>
                       <th>Created At</th>
                     </tr>
                   </thead>
                   <tbody>
                     @forelse ($teachers as $key => $teacher)
+                   
                     <tr>
                       <td>{{ $teacher->id }}</td>
-                      <td><span class="badge {{ $key % 3 === 0 ? 'bg-success' : ($key % 3 === 1 ? 'bg-danger' : 'bg-warning') }}">{{ $teacher->name }}</span></td>
+                      <td>{{ $teacher->name }}</td>
                       <td>{{ $teacher->email }}</td>
                       <td>{{ $teacher->age }}</td>
-                      <td>{{ $teacher->roll_number }}</td>
+                      <td>{{ $teacher->sex }}</td>
+                      <td>
+                        @foreach ($teacher->classes as $k1 => $class)
+                        <span class="badge {{ $k1 % 3 === 0 ? 'bg-success' : ($k1 % 3 === 1 ? 'bg-danger' : 'bg-warning') }}">{{ $class->name }}</span>
+                        @endforeach
+                      </td>
+                      <td>
+                        @foreach ($teacher->subjects as $k2 => $subject)
+                        <span class="badge {{ $k2 % 3 === 0 ? 'bg-success' : ($k2 % 3 === 1 ? 'bg-danger' : 'bg-warning') }}">{{ $subject->name }}</span>
+                        @endforeach
+                      </td>
                       <td>
                         @if(!empty($teacher->image))
                         <img src="{{ url('/' . $teacher->image) }}" style="height:50px; width:50px; border-radius:50%" alt="User Image">
