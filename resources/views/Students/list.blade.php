@@ -18,14 +18,15 @@
         </div>
         <div class="row">
           <form action="{{ route('students.search') }}" method="GET">
-            <input type="text" name="query" class="p-1" placeholder="Search by name">
-            <select name="class" class="p-1">
+            <input type="text" value="<?= isset($_GET['query']) ? $_GET['query']: ''?>" name="query" class="p-1" placeholder="Search by name">
+            <select name="class" class="p-1" style="background-color:#fff; color:#000">
               <option value="">Select Class</option>
               @foreach ($classes as $k1 => $class)
-              <option value="{{$class->id}}">{{$class->name}}</option>
+              <option value="{{$class->id}}" <?= (isset($_GET['class']) && $_GET['class'] == $class->id ? 'selected' : '')?>>{{$class->name}}</option>
               @endforeach
             </select>
             <button type="submit" class="btn btn-secondary">Search</button>
+            <a  href="{{ route('students.list') }}" class="btn btn-secondary">Clear Filter</a>
         </form>
         </div>
       </div><!-- /.container-fluid -->

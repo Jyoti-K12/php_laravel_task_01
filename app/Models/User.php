@@ -44,7 +44,7 @@ class User extends Authenticatable
 
     public function student_class()
     {
-        return $this->hasOne(MyClass::class, 'id');
+        return $this->hasOne(MyClass::class, 'id', 'class_id');
     }
 
     public function classes()

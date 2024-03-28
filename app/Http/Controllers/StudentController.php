@@ -60,21 +60,19 @@ class StudentController extends Controller
 
     public function search(Request $request)
     {
-        $query = $request->input('query');
-        $class_id = $request->input('class');
         $classes = MyClass::all();
-        $condition = [];
-        if (!empty($query)) {
-            $condition[] = ['name', 'like', '%' . $query . '%'];
+
+        $query = User::query();
+
+        if ($request->has('query') && $request->input('query') != "") {
+            $query->where('name', 'like', '%' . $request->input('query') . '%');
         }
-        if (!empty($class_id)) {
-            $condition[] = ['class_id',  $class_id];
+
+        if ($request->has('class') && $request->input('class') > 0) {
+            $query->where('class_id', $request->input('class'));
         }
-        if (!empty($condition)) {
-            $students = User::where($condition)->where('role', 'student')->get();
-        } else {
-            $students = User::where(['role' => 'student'])->get();
-        }
+
+        $students = $query->where(['role' => 'student'])->get();
 
 
         return view('students.list', compact('students', 'classes'));
